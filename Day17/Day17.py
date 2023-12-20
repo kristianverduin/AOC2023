@@ -25,7 +25,7 @@ def checkDirection2(curr_dr, curr_dc, dr, dc, streak):
         return 1
 
 
-def dijsktra(graph, checkDirection, check):
+def dijkstra(graph, checkDirection, check):
     distances = {(i, j): defaultdict(lambda: math.inf) for j in range(len(graph[0])) for i in range(len(graph))}
     directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
     queue = [(0, (0, 0), (0, 0), 1)]
@@ -49,11 +49,11 @@ def dijsktra(graph, checkDirection, check):
     return distances
             
 def partOne(graph):
-    distances = dijsktra(graph, checkDirection, 4)
+    distances = dijkstra(graph, checkDirection, 4)
     print(min(distances[(len(graph)-1, len(graph[0])-1)].values()))
 
 def partTwo(graph):
-    distances = dijsktra(graph, checkDirection2, 11)
+    distances = dijkstra(graph, checkDirection2, 11)
     print(min(heat_loss for (_, _, streak), heat_loss in distances[len(graph) - 1, len(graph[0]) - 1].items() if streak >= 4))
 
 lines = readInput()
