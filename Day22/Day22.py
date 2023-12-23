@@ -59,7 +59,7 @@ def removableBricks(stack, supportedBy):
     for brick in supportedBy:
         if len(brick) == 1:
             possibleBricks.discard(brick.pop())
-        
+            
     return possibleBricks
 
 def partOne():
@@ -69,4 +69,29 @@ def partOne():
     supportedBy, supports = settleBricks(stack, ground)
     print(len(removableBricks(stack, supportedBy)))
 
+def checkRemoveChain(stack, supportedBy, supports):
+    fallen = 0
+    for i in range(len(stack)):
+        newStack = ([i])
+        falling = set([i])
+
+        while newStack:
+            current = newStack.pop(0)
+
+            for supportedByCurrent in supports[current]:
+                if len(supportedBy[supportedByCurrent] - falling) == 0:
+                    falling.add(supportedByCurrent)
+                    newStack.append(supportedByCurrent)
+
+        fallen += len(falling)-1
+    return fallen
+
+def partTwo():
+    bricks = readInput()
+    stack = getSortedStack(bricks)
+    ground = getGround(stack)
+    supportedBy, supports = settleBricks(stack, ground)
+    print(checkRemoveChain(stack, supportedBy, supports))
+
 partOne()
+partTwo()
